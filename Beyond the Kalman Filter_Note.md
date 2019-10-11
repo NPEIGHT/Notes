@@ -81,14 +81,14 @@ $$
   p(x_k|Z_{k-1})=N(x_k;\hat{x}_{k|k-1},P_{k|k-1})\\
   p(x_k|Z_k)=N(x_k;\hat{x}_{k|k-1},P_{k|k})
   $$
-  $N(x;m,P)$ is Gaussian density with argument x, mean m and covariance P
+  >$N(x;m,P)$ is Gaussian density with argument x, mean m and covariance P
   $$
   \hat{x}_{k|k-1}=F_{k-1}\hat{x}_{k-1|k-1}\\
   P_{k|k-1}=Q_{k-1}+F_{k-1}P_{k-1|k-1}F^T_{k-1}\\
   \hat{x}_{k|k}=\hat{x}_{k|k-1}+K_k(z_k-H_k\hat{x}_{k|k-1})\\
   P_{k|k}=P_{k|k-1}-K_kS_kK^T_k
   $$
-  $S_k=H_kP_{k|k-1}H_k^T+R_k$ is the covariance of the innovation term $\nu_k=z_k-H_k\hat{x}_{k|k-1}$  
+  Notice $S_k=H_kP_{k|k-1}H_k^T+R_k$ is the covariance of the innovation term $\nu_k=z_k-H_k\hat{x}_{k|k-1}$  
   and $K_k=P_{k|k-1}H^T_kS^{-1}_k$ is the **Kalman gain**  
   also
   $$
