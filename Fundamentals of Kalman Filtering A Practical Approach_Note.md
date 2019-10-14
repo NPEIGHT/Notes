@@ -55,12 +55,12 @@ The best constant in the *least-squares sense* is average value of the measureme
 To fit the measurement data with the best straight line
 $$
 \hat{x}=a_0+a_1t\\
-\hat{\dot{x}}=a1
+\hat{\dot{x}}=a_1
 $$
 or in descrete notataion
 $$
 \hat{x}_k=a_0+a_1(k-1)T_s\\
-\hat{\dot{x}}_k=a1
+\hat{\dot{x}}_k=a_1
 $$
 $$
 \frac{\partial R}{\partial a_0}=0=2(a_0-x_1^*)+2(a_0+a_1T_s-x_2^*)+...+2(a_0+a_1(n-1)T_s-x_n^*)\\
@@ -90,3 +90,25 @@ The new estimate depends on the old estimate plus a gain (for zeroth-order filte
 $$
 \hat{x}_k=\hat{x}_{k-1}+K_{1_k}{Res}_k
 $$
+The zeroth-order recursive least-squares filter will yield the same answers regardless of initial conditions  
+Error in the estimate:
+$$
+x_k-\hat{x}_k=x_k-\hat{x}_{k-1}-\frac{1}{k}(x_k^*-\hat{x}_{k-1})\\
+x_k^*=x_k+\nu_k\\
+x_k=x_{k-1}\\
+(x_k-\hat{x}_k)^2=(x_{k-1}-\hat{x}_{k-1})^2(1-\frac{1}{k})^2-2(1-\frac{1}{k})(x_{k-1}-\hat{x}_{k-1})\frac{\nu_k}{k}+(\frac{1}{k}\nu_k)^2\\
+$$
+Assuming the noise is uncorrelated with the state or estimate
+$$
+E[(x_k-\hat{x}_k)^2]=P_k\\
+E(\nu_k^2)=\sigma_n^2\\
+E[(x_{k-1}-\hat{x}_{k-1})\nu_k]=0
+$$
+Therefore the variance of the error in the estimate is
+$$
+P_k=P_{k-1}(1-\frac{1}{k})^2+\frac{\sigma_n^2}{k^2}\\
+P_k=\frac{\sigma_n^2}{k}
+$$
+
+The first-order filter will not be able to track the second-order signal. Truncation error $\varepsilon_k=x_k-\hat{x}_k$
+
