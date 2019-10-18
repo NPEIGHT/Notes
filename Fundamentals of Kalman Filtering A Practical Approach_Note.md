@@ -112,3 +112,57 @@ $$
 
 The first-order filter will not be able to track the second-order signal. Truncation error $\varepsilon_k=x_k-\hat{x}_k$
 
+# Chapter 4 Polynomial Kalman Filters
+## 1. General Equations
+$$
+\dot{\boldsymbol{x}}=\boldsymbol{Fx+Gu+w}
+$$
+$\boldsymbol{x}$ is status of the system (column vector), $\boldsymbol{F}$ is the system dynamics matrix, $\boldsymbol{u}$ is the control vector, $\boldsymbol{w}$ is a white noise process.  
+Process-noise matrix is 
+$$
+\boldsymbol{Q}=\boldsymbol{E[ww^T]}
+$$
+
+Kalman filter formulation requires that the measurements be linearly related tho the status:
+$$
+\boldsymbol{z=Hx+v}
+$$
+$\boldsymbol{z}$: measurement vector, $\boldsymbol{H}$: measurement matrix, $\boldsymbol{v}$: white measurement noise.  
+Measurement noise matrix is
+$$
+\boldsymbol{R=E[vv^T]}
+$$
+## 2. Discrete Form
+Fundamental matrix $\Phi$ in discreate form:
+$$
+\Phi_k=\Phi(T_s)
+$$
+Kalman-filtering measurement equation:
+$$
+\boldsymbol{z}_k=\boldsymbol{Hx}_k+\boldsymbol{v}_k\\
+\boldsymbol{R}_k=E(\boldsymbol{v}_k\boldsymbol{v}_k^T)
+$$
+$\boldsymbol{R}_k$ consists the variances of each of the measurement noise sources.  
+The resultant Kalman-filtering equation is
+$$
+\boldsymbol{\hat{x}}_k=\Phi_k\boldsymbol{\hat{x}}_{k-1}+\boldsymbol{G}_k\boldsymbol{u}_{k-1}+\boldsymbol{K}_k(\boldsymbol{z}_k-\boldsymbol{H}\Phi_k\hat{\boldsymbol{x}}_{k-1}-\boldsymbol{HG}_k\boldsymbol{u}_{k-1})\\
+\boldsymbol{G}_k=\int_0^{T_s}\Phi(\tau)\boldsymbol{G}d\tau
+$$
+$\boldsymbol{K}_k$ is the Kalman gain matrix. If $\boldsymbol{u}_{k-1}$ is constant between sampling instants, we can compute Kalman gains from Riccati equations:
+$$
+M_k=\Phi_kP_{k-1}\Phi_k^T+Q_k\\
+K_k=M_kH^T(HM_kH^T+R_k)^{-1}\\
+P_k=(I-K_kH)M_k
+$$
+$P_k$ is a covariance matrix representing errors in the state estimates (variance of truth minus estimate) **after an update**, and $M_k$ is the covariance matrix representing errors in the state estimates **before an update**.  
+The discrete-process-noise matrix $Q_k$ is:
+$$
+Q_k=\int_0^{T_s}\Phi(\tau)Q\Phi^T(\tau)dt
+$$
+An initial covariance matrix $P_0$ is required to start the Riccati equations.
+
+## 3. Polynomial Kalman Filter (Zero Process Noise)
+If there is no control vector and $Q_k=0$, the filtering equation simplifies to:
+$$
+\boldsymbol{\hat{x}}_k=\Phi_k\boldsymbol{\hat{x}}_{k-1}+\boldsymbol{K}_k(\boldsymbol{z}_k-\boldsymbol{H}\Phi_k\hat{\boldsymbol{x}}_{k-1})\\
+$$
