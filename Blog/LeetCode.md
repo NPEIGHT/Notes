@@ -1,3 +1,59 @@
+## 19.[删除链表的倒数第N个节点](https://leetcode-cn.com/problems/remove-nth-node-from-end-of-list/)
+给定一个链表，删除链表的倒数第 n 个节点，并且返回链表的头结点。
+
+示例：
+给定一个链表: 1->2->3->4->5, 和 n = 2.
+当删除了倒数第二个节点后，链表变为 1->2->3->5.  
+说明：
+给定的 n 保证是有效的。
+
+思路：
+1. 遍历两遍，先得到链表长度，再移除指定节点：  
+    ```python
+    # Definition for singly-linked list.
+    class ListNode:
+        def __init__(self, x):
+            self.val = x
+            self.next = None
+
+    class Solution:
+        def removeNthFromEnd(self, head: ListNode, n: int) -> ListNode:
+            headNode = ListNode(0)
+            headNode.next = head
+            firstList = head
+            index = 0
+            while firstList:
+                index +=1
+                firstList = firstList.next
+            length = index - n
+            firstList = headNode
+            while length > 0:
+                length -= 1
+                firstList = firstList.next
+            firstList.next = firstList.next.next
+
+            return headNode.next  
+                
+    ```
+    虽然AC，却很丑陋 
+
+2. 只遍历一遍  
+   使用一快一慢两个指针，相隔N个节点，遍历一遍。快指针到达链表尾时，慢指针也就处在倒数N个节点处。神奇的是尝试用这种方法，执行速度不如遍历两次来的好，姑且作为一种思路
+   ```python
+    def removeNthFromEnd(self, head: ListNode, n: int) -> ListNode:
+        dummy = ListNode(0)
+        dummy.next = head
+        fast,slow = dummy,dummy
+        for  i in range(n+1):
+            fast = fast.next
+        while fast is not None: 
+            fast = fast.next
+            slow = slow.next
+        slow.next = slow.next.next
+        return dummy.next
+   ```
+   
+
 ## 20.[有效的括号](https://leetcode-cn.com/problems/valid-parentheses)
 给定一个只包括 '('，')'，'{'，'}'，'['，']' 的字符串，判断字符串是否有效。
 
