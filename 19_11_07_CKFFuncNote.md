@@ -6,3 +6,4 @@
 * `sphericalradial`生成容积点，代入函数完成传播，再根据容积准则计算积分值
 * 通用套路是用SR准则计算积分值，先算mean，再代入算P和C；先算预测mean和covariance，然后用Kalman计算更新mean和covariance
 * Reentry Vehicle示例中，认为噪声是叠加性的，用reentry_f计算轨迹，reentry_h计算测量结果
+* 该工具箱函数和原始的CKF定义有差异，主要体现在P和C的计算上，改了一下效果稍有改善
